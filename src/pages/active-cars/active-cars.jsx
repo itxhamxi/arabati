@@ -1,6 +1,6 @@
 import React from 'react';
 import { Typography, Grid, FormControl, InputLabel, Select, MenuItem, IconButton, Table, TableContainer, TableBody, TableHead, TableRow, TableCell, } from '@material-ui/core';
-import { FaTrash, FaPause, FaPencilAlt, FaMinus, FaThumbsUp  } from 'react-icons/fa';
+import { FaTrash,  FaPencilAlt  } from 'react-icons/fa';
 import { PrimaryTemplate } from '../../template';
 import { AdminTemplate } from '../../template';
 
@@ -90,7 +90,7 @@ class ActiveCars extends React.Component {
                                 <TableCell style={{color: '#fff' }}>Year</TableCell>
                                 <TableCell style={{color: '#fff' }}>Showroom</TableCell>
                                 <TableCell style={{color: '#fff' }}>Rent</TableCell>
-                                <TableCell style={{color: '#fff' }}>Remove</TableCell>
+                                <TableCell style={{color: '#fff' }}>Actions</TableCell>
                             </TableRow>
                         </TableHead>
 
@@ -107,15 +107,18 @@ class ActiveCars extends React.Component {
                             <TableRow key={singleValue._id}>
                                 <TableCell style={{ border: '1px solid #ddd' }}>
                                 <Grid container spacing={2}>
-                                    <Grid item md = {5} lg={4}>
+                                    <Grid item md = {5} lg={5}>
                                         <img 
                                             className = "product-img"
+                                            style={{width:'100%',height:'250px',objectFit:'cover'}}
+                                           
+                                           
                                            // src="https://article.images.consumerreports.org/f_auto/prod/content/dam/CRO%20Images%202018/Cars/November/CR-Cars-InlineHero-2019-Honda-Insight-driving-trees-11-18" 
                                             src={serverHostName+singleValue.imagePath} 
                                             alt={singleValue.name}
                                         />
                                     </Grid>
-                                    <Grid item md={7} lg = {8}>
+                                    <Grid item md={7} lg = {7}>
                                         <div className="product-title-container">
                                             <span> {singleValue.title}</span>
                                         </div>
@@ -124,42 +127,26 @@ class ActiveCars extends React.Component {
                                                { singleValue.descriptions}
                                             </Typography>
                                         </div>
-                                        <div className="product-action-btns-container">
-                                           <Link to={`/edit-products/`+singleValue._id}> <IconButton 
-                                                className   =   "car-btns product-action-btn-margin"
-                                                
-                                                >
-                                                <FaPencilAlt />
-                                            </IconButton>
-                                            </Link>
-
-                                            <IconButton 
-                                                className   =   "car-btns product-action-btn-margin">
-                                                <FaPause />
-                                            </IconButton>
-
-                                            <IconButton 
-                                                className   =   "car-btns product-action-btn-margin">
-                                                <FaMinus />
-                                            </IconButton>
-
-                                            <IconButton 
-                                                className   =   "car-btns product-action-btn-margin">
-                                                <FaThumbsUp />
-                                            </IconButton>
-                                        </div>
+                                        
                                     </Grid>
                                 </Grid>
                                 </TableCell>
-                                <TableCell style={{ border: '1px solid #ddd' }}>2018</TableCell>
+                                <TableCell style={{ border: '1px solid #ddd' }}>{singleValue.model}</TableCell>
                                 <TableCell style={{ border: '1px solid #ddd' }}>Showroom</TableCell>
-                                <TableCell style={{ border: '1px solid #ddd' }}>Rent</TableCell>
+                                <TableCell style={{ border: '1px solid #ddd' }}>{singleValue.rental_cost}</TableCell>
                                 <TableCell style={{ border: '1px solid #ddd' }}>
                                     <IconButton onClick={()=>{
                                             this.deleteProduct(singleValue._id)
                                         }}>
                                         <FaTrash  />
                                     </IconButton>
+                                    <Link to={`/edit-products/`+singleValue._id}> <IconButton 
+                                                className   =   "car-btns product-action-btn-margin"
+                                                
+                                                >
+                                                <FaPencilAlt />
+                                            </IconButton>
+                                            </Link>
                                 </TableCell>
                             </TableRow>
 
