@@ -1,7 +1,7 @@
 import React from 'react'
 import './form.css';
 import axios from 'axios'
-import {bookings} from '../../assets/serverUrls';
+import {bookings,getAllProductsDetailsUrl,deleteProduct} from '../../assets/serverUrls';
 
 const initialState = {
   firstName:"",
@@ -10,7 +10,7 @@ const initialState = {
   phoneNo :'',
   takenTime :'',
   returnTime :'',
-   car :'',
+  //  car :'',
  specialInstructions :'',
 }
 class form extends React.Component {
@@ -29,7 +29,7 @@ class form extends React.Component {
          phoneNo :'',
          takenTime :'',
          returnTime :'',
-        car :'',
+        // car :'',
         specialInstructions :'',
     }
   }
@@ -46,10 +46,11 @@ class form extends React.Component {
     formData.append('phoneNo',this.state.phoneNo);
     formData.append('takenTime',this.state.takenTime);
     formData.append('returnTime',this.state.returnTime);
-    formData.append('car',this.state.car);
+    // formData.append('car',this.state.car);
     formData.append('specialInstructions',this.state.specialInstructions);
     event.preventDefault();
     console.log(this.state)
+    
     
     axios.post(bookings, formData, {
     }).then(res => {
@@ -67,9 +68,36 @@ class form extends React.Component {
         // })
         console.log("error received "+err);
     })
+    
+}
+deleteProduct(id){
+        
+  const data = this.state.data.filter(singleValue=> singleValue._id !== id);
+  axios.get(deleteProduct+id)
+  .then(res=>{
+      console.log(res);
+      this.setState({
+          data:data
+      })
+  }).catch(err=>{
+      console.log(err);
+  })
+}
+
+componentDidMount(){
+      
+  axios.get(getAllProductsDetailsUrl)
+  .then(res=>{
+      console.log(res.data);
+     this.setState({
+         data:res.data
+     })
+  }).catch(err=>{
+    
+  })
 }
     render() {
-      const {firstName,lastName,emailAddress,phoneNo,takenTime,returnTime,specialInstructions,car}=this.state
+      const {firstName,lastName,emailAddress,phoneNo,takenTime,returnTime,specialInstructions}=this.state
     return (
         <div className="formwrapper">
        <div className="containers">
@@ -104,21 +132,21 @@ class form extends React.Component {
           </p>
           <p>
             <label>Taken Time</label>
-            <input type="date" name="takenTime"  value={takenTime} onChange={this.handleChange}/>
+            <input type="text" name="takenTime"  value={takenTime} onChange={this.handleChange}/>
           </p>
           <p>
             <label>Return Time</label>
-            <input type="date" name="returnTime"  value={returnTime} onChange={this.handleChange}/>
+            <input type="text" name="returnTime"  value={returnTime} onChange={this.handleChange}/>
           </p>
-          <p>
+          {/* <p>
             <label>Car</label>
-            <select name="cars" id="cars"  onChange={this.handleChange}>
+            <select name="car" id="car"  onChange={this.handleChange}>
   <option value={car}>Volvo</option>
   <option value="saab">Saab</option>
   <option value="mercedes">Mercedes</option>
   <option value="audi">Audi</option>
 </select>
-          </p>
+          </p> */}
           <p class="full">
             <label>Special Instructions</label>
             <textarea name="specialInstructions" rows="5"  value={specialInstructions} onChange={this.handleChange}></textarea>
